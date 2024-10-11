@@ -2,6 +2,7 @@ import requests
 import random
 import json
 from bot.utils.logger import logger
+from bot.utils.proxy import get_proxy_dict
 from bot.utils.json_db import JsonDB
 from bot.utils.utils import tg_sendMsg, Time
 from bot.config import settings
@@ -35,7 +36,8 @@ def tap(session_name: str, zero_click = False) -> dict:
 
     telegram_id = session_data["telegram_id"]
     userAgent = session_data["UserAgent"]
-    proxy = session_data["proxy"]
+    proxy_string = session_data["proxy"]
+    proxy = get_proxy_dict(proxy_string)
     access_token = session_data["access_token"]
     click_range = session_data['clicks_range']
     # tap url
@@ -71,7 +73,7 @@ def tap(session_name: str, zero_click = False) -> dict:
         "Referrer-Policy": "strict-origin-when-cross-origin",
     }
 
-    response = requests.post(url, headers=headers, json=payload)
+    response = requests.post(url, headers=headers, json=payload, proxies=proxy)
     user_data = response.json()
     # Checking the response
     if response.status_code == 200:

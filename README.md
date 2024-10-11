@@ -2,6 +2,8 @@
 
 ![demo](.github/images/demo.jpg)
 
+# [GangstaMonkey](https://t.me/gangstaMonkey_bot)
+
 ## ⚡ Features
 1. Support multi-sessions
 2. Autotap when Enegry is full
@@ -51,7 +53,8 @@
 
 
 ## 📕 [Session](sessions/session_example.json)
-For each session, you should create a json file in `sessinos/` folder with your auth data (detailed instruction will be below in [Full Guide](docs/guide.md) how to get this data):
+For each session, you should create a json file in `sessinos/` folder with your auth data (detailed instruction will be below in [Full Guide](docs/guide.md) how to get this data).
+Supported `proxy` formats: scheme://hostname:port, scheme://user:password@hostname:port, or leave it blank: ""
 ```json
 {
   "init_data": "user=%7B%22first_name%22%3A%22%F0%9F%90%A4%22last_name%22%3A%22%22%2C%22username%22%3A%22%22%2C%22language_code%22%3A%22ru%22%7D&chat_instance=233190&chat_type=group&start_param=752&auth_date=1728501985&hash=6251751a478778e6c2dd",
@@ -59,7 +62,7 @@ For each session, you should create a json file in `sessinos/` folder with your 
   "referrer": "34583417",
   "access_token": "eyJhbGciOidfgdfgdfsDSF5cCI6IkpXVCJ9.eyJ0ZWxlZ3JhbretdGSRgdV9pZCI6NzUyNjgz9uIjoxNzI4NTIzNjM3LjIzMzI5MX0.mZ9Kl_H7WqKjFDghhsa5wesef",
   "UserAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1",
-  "proxy": {},
+  "proxy": "",
   "clicks_range": [
     491,
     500

@@ -1,6 +1,7 @@
 import requests
 from bot.utils.logger import logger
 from bot.utils.json_db import JsonDB
+from bot.utils.proxy import get_proxy_dict
 from bot.utils.utils import tg_sendMsg, Time, Colors
 from bot.config import settings
 import json
@@ -40,7 +41,8 @@ def login(session_name: str) -> dict:
     telegram_id = session_data["telegram_id"]
     referrer = session_data["referrer"]
     userAgent = session_data["UserAgent"]
-    proxy = session_data["proxy"]
+    proxy_string = session_data["proxy"]
+    proxy = get_proxy_dict(proxy_string)
 
     # token only for 12h probaply
     url = "https://gangsta-monkey.com/bringold-bot/backend/api/auth/login/"
@@ -73,7 +75,7 @@ def login(session_name: str) -> dict:
         "Referrer-Policy": "strict-origin-when-cross-origin",
     }
 
-    response = requests.post(url, headers=headers, json=payload)
+    response = requests.post(url, headers=headers, json=payload, proxies=proxy)
     res = response.json()
     # Checking the response
     if response.status_code == 200:
