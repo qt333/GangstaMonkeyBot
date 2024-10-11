@@ -1,0 +1,10 @@
+venv
+test.py
+info
+__pycache__
+*.log
+.env
+sessions/*.json
+sessions/users_data/*.json
+!sessions/session_example.json
+!sessions/users_data/userdata_example.json

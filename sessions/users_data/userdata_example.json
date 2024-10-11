@@ -1,0 +1,16 @@
+{
+  "telegram_id": 4564564564,
+  "username": "dfgdfgdfgdfdfg",
+  "first_name": "FGDFD",
+  "total_coins": 409879,
+  "balance_coins": 442479,
+  "ton_balance": 0.046,
+  "level": 2,
+  "available_taps": 3374,
+  "max_taps": 5000,
+  "income_per_tap": 10,
+  "taps_recover_per_sec": 4,
+  "last_sync_update": 1728337780,
+  "clan": "TON",
+  "next_level_coins": 500000
+}
