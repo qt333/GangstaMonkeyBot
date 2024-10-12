@@ -11,7 +11,14 @@ from bot.utils.utils import Colors
 tg = settings.TG_NOTIFICATIONS
 
 def boosters_check(session_name: str) -> dict:
-    """Check available boosters"""
+    """Check available boosters\n
+    :return: boosters_data\n
+    boosters_data = {
+            "full_energy":full_energy,
+            "full_energy_count":full_energy_count,
+            "turbo":turbo,
+            "turbo_count":turbo_count
+        }"""
 
     db = JsonDB(session_name, path='sessions/')
     session_data = db.get_data()
@@ -142,4 +149,8 @@ def booster_activate(session_name, boost_slug):
         return 0
 
 
+def run_boosters(session_name, tap,):
+
+    boosters_data = boosters_check(session_name)
+    if boosters_data:
 
