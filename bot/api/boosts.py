@@ -168,4 +168,4 @@ def run_boosters(session_name, max_clicks_range):
         logger.success('{}{}{} | Successful boosters use | Full Enegry: {}{}{}, Turbo: {}{}{}'.format(
                 Colors.LIGHT_CYAN, session_name, Colors.END, Colors.PURPLE, boosters_data["full_energy_count"], Colors.END, Colors.PURPLE, boosters_data["turbo_count"], Colors.END))
         if tg:
-            tg_sendMsg(f'{session_name} | Successful boosters use | Full Enegry: {boosters_data["full_energy_count"]}, Turbo: {boosters_data["turbo_count"]}', ps='[GangstaMonkey]\n\n')
+            tg_sendMsg(f'{session_name} | Successful boosters use\nFull Enegry: {boosters_data["full_energy_count"]}\nTurbo: {boosters_data["turbo_count"]}', ps='[GangstaMonkey]\n\n')
