@@ -7,6 +7,7 @@
 ## ⚡ Features
 1. Support multi-sessions
 2. Autotap when Enegry is full
+3. Auto Boosters activation and use
 
 ## ⚙ [Settings](.env-example)
 <details>

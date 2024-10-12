@@ -55,7 +55,7 @@ class Tapper:
         self.income_per_tap = user_data["income_per_tap"]
         self.max_taps = user_data["max_taps"]
         clicks = floor(self.available_taps/self.income_per_tap) 
-        clicks_range = [clicks - 15, clicks]
+        clicks_range = [clicks - 3, clicks]
         db = JsonDB(self.session_name, path='sessions/')
         session_data = db.get_data()
         session_data['clicks_range'] = clicks_range
