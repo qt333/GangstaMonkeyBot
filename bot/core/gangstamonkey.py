@@ -89,7 +89,6 @@ class Tapper:
                 self.counter += 1
 
                 # Boosters use logic
-                max_taps = initial_user_data['max_taps']
                 if self.next_boosters_use:
                     use_boosters = Time.TIMESTAMP > self.next_boosters_use
                 if self.next_boosters_use == 0 or use_boosters:
