@@ -166,6 +166,6 @@ def run_boosters(session_name, max_clicks_range):
                 time.sleep(random.randint(12,17))
                 tap_clicks_range(session_name)          
         logger.success('{}{}{} | Successful boosters use | Full Enegry: {}{}{}, Turbo: {}{}{}'.format(
-                Colors.LIGHT_CYAN, session_name, Colors.END, Colors.PURPLE, boosters_data["full_energy_count"], Colors.END, Colors.PURPLE, boosters_data["full_energy_count"], Colors.END))
+                Colors.LIGHT_CYAN, session_name, Colors.END, Colors.PURPLE, boosters_data["full_energy_count"], Colors.END, Colors.PURPLE, boosters_data["turbo_count"], Colors.END))
         if tg:
-            tg_sendMsg(f'{session_name} | Successful boosters use', ps='[GangstaMonkey]\n\n')
+            tg_sendMsg(f'{session_name} | Successful boosters use | Full Enegry: {boosters_data["full_energy_count"]}, Turbo: {boosters_data["turbo_count"]}', ps='[GangstaMonkey]\n\n')
