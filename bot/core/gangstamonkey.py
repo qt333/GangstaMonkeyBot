@@ -1,12 +1,13 @@
 from math import floor
 import time
 import random
-from bot.utils.utils import tg_sendMsg, Colors
+from bot.utils.utils import tg_sendMsg, Colors, Time
 from bot.utils.logger import logger
 from bot.api.auth import login
 from bot.api.clicker import tap
 from bot.config import settings
 from bot.utils.json_db import JsonDB
+from bot.api.boosts import run_boosters
 
 #NOTE 
 # add 1 intial tap before start main loop to parse income_per_tap available_taps taps_recover_per_sec data to session and then do main job
@@ -23,6 +24,7 @@ class Tapper:
             self.startup_delay = 1
         self.token_updateAt = random.randint(settings.RANDOM_UPDATE_ACCESS_TOKEN[0], settings.RANDOM_UPDATE_ACCESS_TOKEN[1]) #token update on cycle
         self.counter = 0 #cycle counter
+        self.next_boosters_use = 0
 
     def calculate_cooldown(self, user_data: dict) -> tuple:
         """Calculate cooldown_range for randomized start new cycle
@@ -80,8 +82,15 @@ class Tapper:
                 time.sleep(random.randint(45,86)) #delay to emulated time spend for clicks after login()
                 user_data = tap(self.session_name)
                 cooldown_range = self.calculate_cooldown(user_data)
-                time.sleep(random.randint(cooldown_range[0],cooldown_range[1]))
                 self.counter += 1
+
+                # Boosters use logic
+                if self.next_boosters_use:
+                    use_boosters = Time.TIMESTAMP > self.next_boosters_use
+                if self.next_boosters_use == 0 or use_boosters:
+                    run_boosters(self.session_name)
+                    self.next_boosters_use = Time.TIMESTAMP + 60*60*24
+                time.sleep(random.randint(cooldown_range[0],cooldown_range[1]))
 
         except Exception as e:
             logger.error('{}{}{} | While running error occurs: {}'.format(Colors.LIGHT_CYAN, self.session_name, Colors.END, e))
