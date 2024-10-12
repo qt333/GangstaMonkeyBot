@@ -96,7 +96,7 @@ def tap(session_name: str, zero_click = False) -> dict:
             tg_sendMsg(f'{session_name} | Failed to tap: \n{response.status_code}, {response.text}', ps='[GangstaMonkey] Fail\n\n')
         return 0
 
-def tap_clicks_range(session_name: str, clicks_range = [175,275]) -> dict:
+def tap_clicks_range(session_name: str, clicks_range = [221,333]) -> dict:
     """Send certain clicks amount\n
     :clicks_range: list on range [175,275]
     \n

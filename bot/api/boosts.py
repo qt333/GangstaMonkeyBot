@@ -1,12 +1,14 @@
 import requests
 import random
 import json
+import time
 from bot.utils.logger import logger
 from bot.utils.proxy import get_proxy_dict
 from bot.utils.json_db import JsonDB
 from bot.utils.utils import tg_sendMsg, Time
 from bot.config import settings
 from bot.utils.utils import Colors
+from bot.api.clicker import tap, tap_clicks_range
 
 tg = settings.TG_NOTIFICATIONS
 
@@ -136,7 +138,7 @@ def booster_activate(session_name, boost_slug):
         }
 
         logger.success('{}{}{} | Successful booster activation | {}{}{}'.format(
-                Colors.LIGHT_CYAN, session_name, Colors.END, Colors.YELLOW, boost_slug, Colors.END))
+                Colors.LIGHT_CYAN, session_name, Colors.END, Colors.PURPLE, boost_slug, Colors.END))
         # if tg:
         #     tg_sendMsg(f'{session_name} | Successful tap\nTotal Coins: {formatted_balance_coins}\n' \
         #         f'Available Taps: {formatted_available_taps}', ps='[GangstaMonkey]\n\n')
@@ -149,8 +151,21 @@ def booster_activate(session_name, boost_slug):
         return 0
 
 
-def run_boosters(session_name, tap,):
+def run_boosters(session_name):
 
     boosters_data = boosters_check(session_name)
     if boosters_data:
-
+        if boosters_data["full_energy_count"] > 0:
+            for i in range(boosters_data["full_energy_count"]):
+                booster_activate(session_name, boosters_data["full_energy"])
+                time.sleep(random.randint(35,65))
+                tap(session_name)
+        if boosters_data["turbo_count"] > 0:
+            for i in range(boosters_data["turbo_count"]):
+                booster_activate(session_name, boosters_data["turbo"]) #turbo duration 20sec
+                time.sleep(random.randint(12,17))
+                tap_clicks_range(session_name)          
+        logger.success('{}{}{} | Successful boosters use | Full Enegry: {}{}{}, Turbo: {}{}{}'.format(
+                Colors.LIGHT_CYAN, session_name, Colors.END, Colors.PURPLE, boosters_data["full_energy_count"], Colors.END, Colors.PURPLE, boosters_data["full_energy_count"], Colors.END))
+        if tg:
+            tg_sendMsg(f'{session_name} | Successful boosters use', ps='[GangstaMonkey]\n\n')
