@@ -151,7 +151,7 @@ def booster_activate(session_name, boost_slug):
         return 0
 
 
-def run_boosters(session_name):
+def run_boosters(session_name, max_clicks_range):
 
     boosters_data = boosters_check(session_name)
     if boosters_data:
@@ -159,7 +159,7 @@ def run_boosters(session_name):
             for i in range(boosters_data["full_energy_count"]):
                 booster_activate(session_name, boosters_data["full_energy"])
                 time.sleep(random.randint(35,65))
-                tap(session_name)
+                tap_clicks_range(session_name, clicks_range=max_clicks_range)
         if boosters_data["turbo_count"] > 0:
             for i in range(boosters_data["turbo_count"]):
                 booster_activate(session_name, boosters_data["turbo"]) #turbo duration 20sec

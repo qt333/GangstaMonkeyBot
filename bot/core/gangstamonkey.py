@@ -53,6 +53,7 @@ class Tapper:
 
         self.available_taps = user_data["available_taps"]
         self.income_per_tap = user_data["income_per_tap"]
+        self.max_taps = user_data["max_taps"]
         clicks = floor(self.available_taps/self.income_per_tap) 
         clicks_range = [clicks - 15, clicks]
         db = JsonDB(self.session_name, path='sessions/')
@@ -60,7 +61,10 @@ class Tapper:
         session_data['clicks_range'] = clicks_range
         db.save_data(session_data)
 
-        return clicks_range
+        #calculate max clicks
+        max_clicks = floor(self.max_taps/self.income_per_tap)
+        max_clicks_range = [max_clicks - 3, max_clicks]
+        return clicks_range, max_clicks_range
 
     def run(self):
         logger.info('{}{}{} | Thread has been started'.format(Colors.LIGHT_CYAN, self.session_name, Colors.END))
@@ -78,17 +82,18 @@ class Tapper:
                         return False
                     initial_user_data = tap(self.session_name, zero_click=True)
 
-                self.calculate_clicks(initial_user_data) #calc clicks and write values to sessin_data
+                _, max_clicks_range = self.calculate_clicks(initial_user_data) #calc clicks and write values to sessin_data
                 time.sleep(random.randint(45,86)) #delay to emulated time spend for clicks after login()
                 user_data = tap(self.session_name)
                 cooldown_range = self.calculate_cooldown(user_data)
                 self.counter += 1
 
                 # Boosters use logic
+                max_taps = initial_user_data['max_taps']
                 if self.next_boosters_use:
                     use_boosters = Time.TIMESTAMP > self.next_boosters_use
                 if self.next_boosters_use == 0 or use_boosters:
-                    run_boosters(self.session_name)
+                    run_boosters(self.session_name, max_clicks_range)
                     self.next_boosters_use = Time.TIMESTAMP + 60*60*24
                 time.sleep(random.randint(cooldown_range[0],cooldown_range[1]))
 
