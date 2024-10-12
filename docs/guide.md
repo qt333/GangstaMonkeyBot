@@ -36,6 +36,9 @@
 ![demo](../.github/images/guide/guide_step6.jpg)
 
 #### IV. Create session file
+> [!NOTE]
+> if `"referrer": null` paste your `telegram_id` insted of `null`.
+
 1. Paste all this data to `session_example.json` in `sessions/` folder and rename it
 2. Repeat all this steps for adding other accounts
 ___

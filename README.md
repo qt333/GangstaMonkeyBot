@@ -98,7 +98,7 @@ Before you start, make sure you have the following installed:
 ## 🧱 Installation
 You can clone the [**Repository**](https://github.com/qt333/GangstaMonkeyBot) to your system and installing the required dependencies:
 ```shell
-~ >>> git clone https://github.com/qt333/GangstaMonkeyBot 
+~ >>> git clone https://github.com/qt333/GangstaMonkeyBot.git  
 ~ >>> cd GangstaMonkeyBot
 
 # Linux
