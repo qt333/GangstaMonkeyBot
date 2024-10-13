@@ -4,9 +4,8 @@ import json
 from bot.utils.logger import logger
 from bot.utils.proxy import get_proxy_dict
 from bot.utils.json_db import JsonDB
-from bot.utils.utils import tg_sendMsg, Time
 from bot.config import settings
-from bot.utils.utils import Colors
+from bot.utils.utils import Colors, tg_sendMsg
 
 tg = settings.TG_NOTIFICATIONS
 

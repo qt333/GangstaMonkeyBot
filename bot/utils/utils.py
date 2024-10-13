@@ -73,9 +73,22 @@ class Colors:
             kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
             del kernel32
 
+# class Time:
+#     """Datetime | Timestamp \n
+#     "06-10-2024 19:09:10"\n
+#         1728230950"""
+#     TIMESTAMP = int(time.time()) 
+#     DATETIME = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+
 class Time:
     """Datetime | Timestamp \n
     "06-10-2024 19:09:10"\n
         1728230950"""
-    TIMESTAMP = int(time.time()) 
-    DATETIME = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    
+    @property
+    def timestamp(self):
+        return int(time.time())
+    
+    @property
+    def datetime(self):
+        return datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")    

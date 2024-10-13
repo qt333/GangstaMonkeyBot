@@ -10,10 +10,9 @@ from bot.utils.json_db import JsonDB
 from bot.api.boosts import run_boosters
 
 #NOTE 
-# add 1 intial tap before start main loop to parse income_per_tap available_taps taps_recover_per_sec data to session and then do main job
 # add get_userdata() like it work in website? 
-# add def calculate_clicks and write values to session.json
 
+t = Time()
 
 class Tapper:
     def __init__(self, session_name) -> None:
@@ -90,10 +89,10 @@ class Tapper:
 
                 # Boosters use logic
                 if self.next_boosters_use:
-                    use_boosters = Time.TIMESTAMP > self.next_boosters_use
+                    use_boosters = t.timestamp > self.next_boosters_use
                 if self.next_boosters_use == 0 or use_boosters:
                     run_boosters(self.session_name, max_clicks_range)
-                    self.next_boosters_use = Time.TIMESTAMP + 60*60*24
+                    self.next_boosters_use = t.timestamp + 60*60*24
                 time.sleep(random.randint(cooldown_range[0],cooldown_range[1]))
 
         except Exception as e:

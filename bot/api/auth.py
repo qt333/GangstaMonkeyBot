@@ -30,8 +30,9 @@ def login(session_name: str) -> dict:
         1728279132
     ]
 }"""
-    ts = Time.TIMESTAMP
-    dt = Time.DATETIME
+    t = Time()
+    ts = t.timestamp
+    dt = t.datetime
 
     db = JsonDB(session_name, path='sessions/')
     session_data = db.get_data()
