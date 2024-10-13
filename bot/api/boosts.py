@@ -151,8 +151,9 @@ def booster_activate(session_name, boost_slug):
 
 
 def run_boosters(session_name, max_clicks_range):
-
+    time.sleep(random.randint(1,3) + random.random())
     boosters_data = boosters_check(session_name)
+    time.sleep(random.randint(2,3) + random.random())
     if boosters_data:
         if boosters_data["full_energy_count"] > 0 or boosters_data["turbo_count"] > 0:
             if boosters_data["full_energy_count"] > 0:
@@ -165,7 +166,7 @@ def run_boosters(session_name, max_clicks_range):
                 for i in range(boosters_data["turbo_count"]):
                     booster_activate(session_name, boosters_data["turbo"]) #turbo duration 20sec
                     time.sleep(random.randint(12,17))
-                    user_data = tap_clicks_range(session_name)
+                    user_data = tap_clicks_range(session_name, clicks_range=[600, 700])
                     time.sleep(random.randint(2,3) + random.random())
             formatted_balance_coins = format(user_data["balance_coins"],",")
             logger.success('{}{}{} | Successful boosters use |\nFull Enegry: {}{}{}, Turbo: {}{}{}, Balance coins: {}{}{}'.format(
