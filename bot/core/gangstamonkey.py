@@ -1,5 +1,6 @@
 from math import floor
 import time
+from datetime import datetime
 import random
 from bot.utils.utils import tg_sendMsg, Colors, Time
 from bot.utils.logger import logger
@@ -65,6 +66,19 @@ class Tapper:
         max_clicks_range = [max_clicks - 3, max_clicks]
         return clicks_range, max_clicks_range
 
+    def sleep_pattern(self):
+        #NOTE EXPIREMENTAL FUNC, MAYBE IT WILL NOT WORK CAUSE OF UNABLE TO RECEIVE ACCESS TOKEN AFTER TIME.SLEEP(HOURS) ???
+        if settings.USE_SLEEP_PATTERN:
+            logger.info('{}{}{} | Going to sleep...'.format(Colors.LIGHT_CYAN, self.session_name, Colors.END))
+            now = datetime.now()
+            if now > settings.SLEEP_PATTERN_ACTIVATE_AFTER:
+                time.sleep(settings.SLEEP_PATTERN_DURATION)
+                logger.info('{}{}{} | Successfully waked up.'.format(Colors.LIGHT_CYAN, self.session_name, Colors.END))
+                return True
+            else: return False
+        else:
+            return False
+
     def run(self):
         logger.info('{}{}{} | Thread has been started'.format(Colors.LIGHT_CYAN, self.session_name, Colors.END))
         time.sleep(self.startup_delay)
@@ -93,6 +107,8 @@ class Tapper:
                 if self.next_boosters_use == 0 or use_boosters:
                     run_boosters(self.session_name, max_clicks_range)
                     self.next_boosters_use = t.timestamp + 60*60*24
+                if self.sleep_pattern():
+                    continue
                 time.sleep(random.randint(cooldown_range[0],cooldown_range[1]))
 
         except Exception as e:

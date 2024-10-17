@@ -16,5 +16,10 @@ class Settings(BaseSettings):
     RANDOM_UPDATE_ACCESS_TOKEN:List[int] = [2, 4]
 
     RANDOM_SLEEP_COOLDOWN_TAP: List[int] = [25, 76] # additional sleep time in seconds for main Energy cooldown 
+
+    #NOTE EXPIREMENTAL FEATURE, MAYBE IT WILL NOT WORK CAUSE OF UNABLE TO RECEIVE ACCESS TOKEN AFTER TIME.SLEEP(HOURS). 
+    USE_SLEEP_PATTERN: bool = False # activate sleep pattern script pause
+    SLEEP_PATTERN_DURATION: int = 5 * 60 * 60
+    SLEEP_PATTERN_ACTIVATE_AFTER: int = 23 # activates after 23:00
     
 settings = Settings()
