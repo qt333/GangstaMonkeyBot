@@ -6,6 +6,7 @@ from bot.utils.utils import tg_sendMsg, Colors, Time
 from bot.utils.logger import logger
 from bot.api.auth import login
 from bot.api.clicker import tap
+from bot.api.daily_reward import claim_reward
 from bot.config import settings
 from bot.utils.json_db import JsonDB
 from bot.api.boosts import run_boosters
@@ -106,6 +107,12 @@ class Tapper:
                     use_boosters = t.timestamp > self.next_boosters_use
                 if self.next_boosters_use == 0 or use_boosters:
                     run_boosters(self.session_name, max_clicks_range)
+                    time.sleep(random.uniform(10,20))
+                    
+                    #claim daily reward
+                    reward_data = claim_reward(self.session_name, 'GET')
+                    if not reward_data['claimed_today'] and reward_data:
+                        claim_reward(self.session_name, 'POST')
                     self.next_boosters_use = t.timestamp + 60*60*24
                 if self.sleep_pattern():
                     continue
