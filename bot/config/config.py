@@ -13,9 +13,9 @@ class Settings(BaseSettings):
     USE_RANDOM_DELAY_IN_RUN: bool = True
     RANDOM_DELAY_IN_RUN: List[int] = [0, 500] #seconds
 
-    RANDOM_UPDATE_ACCESS_TOKEN:List[int] = [2, 4]
+    RANDOM_UPDATE_ACCESS_TOKEN:List[int] = [1, 2]
 
-    RANDOM_SLEEP_COOLDOWN_TAP: List[int] = [25, 76] # additional sleep time in seconds for main Energy cooldown 
+    RANDOM_SLEEP_COOLDOWN_TAP: List[int] = [25, 45] # additional sleep time in seconds for main Energy cooldown 
 
     #NOTE EXPIREMENTAL FEATURE, MAYBE IT WILL NOT WORK CAUSE OF UNABLE TO RECEIVE ACCESS TOKEN AFTER TIME.SLEEP(HOURS). 
     USE_SLEEP_PATTERN: bool = False # activate sleep pattern script pause

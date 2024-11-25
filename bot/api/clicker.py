@@ -68,7 +68,7 @@ def tap(session_name: str, zero_click = False) -> dict:
         "sec-fetch-site": "same-origin",
         'Content-Length': str(content_length),
         "Origin": "https://gangsta-monkey.com",
-        "Referer": "https://gangsta-monkey.com/bringold-bot/frontend/tap",
+        "Referer": "https://gangsta-monkey.com/bringold-bot/frontend/start",
         "Referrer-Policy": "strict-origin-when-cross-origin",
     }
 
