@@ -36,7 +36,11 @@ def tap(session_name: str, zero_click = False) -> dict:
     telegram_id = session_data["telegram_id"]
     userAgent = session_data["UserAgent"]
     proxy_string = session_data["proxy"]
-    proxy = get_proxy_dict(proxy_string)
+    # proxy = get_proxy_dict(proxy_string)
+    proxy = {
+        'https': proxy_string,
+        'http': proxy_string
+        }
     access_token = session_data["access_token"]
     click_range = session_data['clicks_range']
     # tap url
@@ -71,6 +75,10 @@ def tap(session_name: str, zero_click = False) -> dict:
         "Referer": "https://gangsta-monkey.com/bringold-bot/frontend/start",
         "Referrer-Policy": "strict-origin-when-cross-origin",
     }
+
+    # check_ip = requests.get('https://ipinfo.io', proxies=proxy)
+    # proxy_data = check_ip.json()
+    # logger.info(f'PRoxy: {proxy} | Current ip: {proxy_data["ip"]} | Current city: {proxy_data["city"]}')
 
     response = requests.post(url, headers=headers, json=payload, proxies=proxy)
     user_data = response.json()

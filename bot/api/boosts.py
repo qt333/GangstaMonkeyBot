@@ -26,7 +26,11 @@ def boosters_check(session_name: str) -> dict:
 
     userAgent = session_data["UserAgent"]
     proxy_string = session_data["proxy"]
-    proxy = get_proxy_dict(proxy_string)
+    # proxy = get_proxy_dict(proxy_string)
+    proxy = {
+        'https': proxy_string,
+        'http': proxy_string
+        }
     access_token = session_data["access_token"]
 
     # tap url

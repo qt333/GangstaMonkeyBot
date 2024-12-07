@@ -43,7 +43,11 @@ def login(session_name: str) -> dict:
     referrer = session_data["referrer"]
     userAgent = session_data["UserAgent"]
     proxy_string = session_data["proxy"]
-    proxy = get_proxy_dict(proxy_string)
+    # proxy = get_proxy_dict(proxy_string)
+    proxy = {
+        'https': proxy_string,
+        'http': proxy_string
+        }
 
     # token only for 12h probaply
     url = "https://gangsta-monkey.com/bringold-bot/backend/api/auth/login/"
