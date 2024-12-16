@@ -6,9 +6,16 @@ from bot.utils.proxy import get_proxy_dict
 from bot.utils.json_db import JsonDB
 from bot.config import settings
 from bot.utils.utils import Colors, tg_sendMsg
+from tenacity import retry, stop_after_attempt, wait_random, retry_if_not_exception_type
 
 tg = settings.TG_NOTIFICATIONS
 
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_random(2, 6),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying tap... {retry_state.outcome.exception()}"),
+    reraise=True
+    )
 def tap(session_name: str, zero_click = False) -> dict:
     """Send clicks\n
     :zero_click: if True, send clicks = 0 to get user_data\n
@@ -103,6 +110,12 @@ def tap(session_name: str, zero_click = False) -> dict:
             tg_sendMsg(f'{session_name} | Failed to tap: \n{response.status_code}, {response.text}', ps='[GangstaMonkey] Fail\n\n')
         return 0
 
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_random(2, 6),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying tap_clicks_range... {retry_state.outcome.exception()}"),
+    reraise=True
+    )
 def tap_clicks_range(session_name: str, clicks_range = [221,333]) -> dict:
     """Send certain clicks amount\n
     :clicks_range: list on range [175,275]

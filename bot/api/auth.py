@@ -5,11 +5,18 @@ from bot.utils.proxy import get_proxy_dict
 from bot.utils.utils import tg_sendMsg, Time, Colors
 from bot.config import settings
 import json
+from tenacity import retry, stop_after_attempt, wait_random, retry_if_not_exception_type
 
 #TODO add content length and Origin:https://gangsta-monkey.com to headers
 
 tg = settings.TG_NOTIFICATIONS
 
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_random(3, 7),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying get access token... {retry_state.outcome.exception()}"),
+    reraise=True
+    )
 def login(session_name: str) -> dict:
     """Update token\n
     :tg: turn on tg notification\n

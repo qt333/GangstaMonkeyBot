@@ -2,3 +2,4 @@ requests[socks]
 loguru
 better-proxy
 pydantic-settings
+tenacity

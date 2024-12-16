@@ -6,9 +6,16 @@ from bot.utils.proxy import get_proxy_dict
 from bot.utils.json_db import JsonDB
 from bot.config import settings
 from bot.utils.utils import Colors, tg_sendMsg
+from tenacity import retry, stop_after_attempt, wait_random, retry_if_not_exception_type
 
 tg = settings.TG_NOTIFICATIONS
 
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_random(2, 6),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying claim_reward... {retry_state.outcome.exception()}"),
+    reraise=True
+    )
 def claim_reward(session_name: str, method: str) -> dict:
 
     """Daily reward claim\n

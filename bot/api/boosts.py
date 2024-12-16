@@ -8,9 +8,16 @@ from bot.utils.json_db import JsonDB
 from bot.config import settings
 from bot.utils.utils import Colors, tg_sendMsg
 from bot.api.clicker import tap, tap_clicks_range
+from tenacity import retry, stop_after_attempt, wait_random, retry_if_not_exception_type
 
 tg = settings.TG_NOTIFICATIONS
 
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_random(3, 7),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying boosters_check... {retry_state.outcome.exception()}"),
+    reraise=True
+    )
 def boosters_check(session_name: str) -> dict:
     """Check available boosters\n
     :return: boosters_data\n
@@ -153,7 +160,12 @@ def booster_activate(session_name, boost_slug):
             tg_sendMsg(f'{session_name} | Failed to activate booster: \n{response.status_code}, {response.text}', ps='[GangstaMonkey] Fail\n\n')
         return 0
 
-
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_random(3, 7),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying run_boosters... {retry_state.outcome.exception()}"),
+    reraise=True
+    )
 def run_boosters(session_name, max_clicks_range):
     time.sleep(random.randint(1,3) + random.random())
     boosters_data = boosters_check(session_name)
