@@ -13,7 +13,7 @@ tg = settings.TG_NOTIFICATIONS
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_random(2, 6),
-    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying tap... {retry_state.outcome.exception()}"),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"{retry_state.args[0]} | Retrying tap... {retry_state.outcome.exception()}"),
     reraise=True
     )
 def tap(session_name: str, zero_click = False) -> dict:
@@ -87,7 +87,7 @@ def tap(session_name: str, zero_click = False) -> dict:
     # proxy_data = check_ip.json()
     # logger.info(f'PRoxy: {proxy} | Current ip: {proxy_data["ip"]} | Current city: {proxy_data["city"]}')
 
-    response = requests.post(url, headers=headers, json=payload, proxies=proxy)
+    response = requests.post(url, headers=headers, json=payload, proxies=proxy, timeout=30)
     user_data = response.json()
     # Checking the response
     if response.status_code == 200:
@@ -113,7 +113,7 @@ def tap(session_name: str, zero_click = False) -> dict:
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_random(2, 6),
-    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying tap_clicks_range... {retry_state.outcome.exception()}"),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"{retry_state.args[0]} | Retrying tap_clicks_range... {retry_state.outcome.exception()}"),
     reraise=True
     )
 def tap_clicks_range(session_name: str, clicks_range = [221,333]) -> dict:
@@ -178,7 +178,7 @@ def tap_clicks_range(session_name: str, clicks_range = [221,333]) -> dict:
         "Referrer-Policy": "strict-origin-when-cross-origin",
     }
 
-    response = requests.post(url, headers=headers, json=payload, proxies=proxy)
+    response = requests.post(url, headers=headers, json=payload, proxies=proxy, timeout=30)
     user_data = response.json()
     # Checking the response
     if response.status_code == 200:

@@ -15,7 +15,7 @@ tg = settings.TG_NOTIFICATIONS
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_random(3, 7),
-    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying boosters_check... {retry_state.outcome.exception()}"),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"{retry_state.args[0]} | Retrying boosters_check... {retry_state.outcome.exception()}"),
     reraise=True
     )
 def boosters_check(session_name: str) -> dict:
@@ -62,7 +62,7 @@ def boosters_check(session_name: str) -> dict:
         "Referrer-Policy": "strict-origin-when-cross-origin",
     }
 
-    response = requests.get(url, headers=headers, proxies=proxy)
+    response = requests.get(url, headers=headers, proxies=proxy, timeout=30)
     boosters = response.json()
     # Checking the response
     if response.status_code == 200:
@@ -131,7 +131,7 @@ def booster_activate(session_name, boost_slug):
         "Referrer-Policy": "strict-origin-when-cross-origin",
     }
 
-    response = requests.post(url, headers=headers, json=payload, proxies=proxy)
+    response = requests.post(url, headers=headers, json=payload, proxies=proxy, timeout=30)
     boosters = response.json()
     # Checking the response
     if response.status_code == 200:
@@ -163,7 +163,7 @@ def booster_activate(session_name, boost_slug):
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_random(3, 7),
-    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying run_boosters... {retry_state.outcome.exception()}"),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"{retry_state.args[0]} | Retrying run_boosters... {retry_state.outcome.exception()}"),
     reraise=True
     )
 def run_boosters(session_name, max_clicks_range):

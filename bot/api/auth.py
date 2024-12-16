@@ -14,7 +14,7 @@ tg = settings.TG_NOTIFICATIONS
 @retry(
     stop=stop_after_attempt(3),
     wait=wait_random(3, 7),
-    before_sleep=lambda retry_state, **kwargs: logger.info(f"Retrying get access token... {retry_state.outcome.exception()}"),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"{retry_state.args[0]} | Retrying get access token... {retry_state.outcome.exception()}"),
     reraise=True
     )
 def login(session_name: str) -> dict:
@@ -87,7 +87,7 @@ def login(session_name: str) -> dict:
         "Referrer-Policy": "strict-origin-when-cross-origin",
     }
 
-    response = requests.post(url, headers=headers, json=payload, proxies=proxy)
+    response = requests.post(url, headers=headers, json=payload, proxies=proxy, timeout=30)
     res = response.json()
     # Checking the response
     if response.status_code == 200:
