@@ -120,14 +120,35 @@ class Tapper:
 
         except Exception as e:
             logger.error('{}{}{} | While running error occurs: {}'.format(Colors.LIGHT_CYAN, self.session_name, Colors.END, e))
-            tg_sendMsg(f'{self.session_name} | While running error occurs: \n {e}', ps='[GangstaMonkey] Exception\n\n')
-            return False
-    
-def run_tapper(session_name):
+            # tg_sendMsg(f'{self.session_name} | While running error occurs: \n {e}', ps='[GangstaMonkey] Exception\n\n')
+            # return False
+
+# @retry(
+#     stop=stop_after_attempt(MAX_RETRIES),
+#     wait=wait_fixed(RETRY_DELAY),
+#     retry=retry_if_exception_type((NewConnectionError, SOCKSHTTPSConnectionPool)),  # Catch both exceptions
+# )    
+# def run_tapper(session_name):
+#     try:
+#         Tapper(session_name).run()
+#     except Exception as e:
+#         logger.error(f'{session_name} | Error in "run_tapper": {e}')
+
+# Retry limit and delay between retries
+MAX_RETRIES = 11
+RETRY_DELAY = 180  # seconds
+
+def run_tapper(session_name, attempt=1):
     try:
+        # Attempt to run the session
         Tapper(session_name).run()
     except Exception as e:
-        logger.error(f'{session_name} | Error in "run_tapper": {e}')
-
-
+        logger.error(f'{session_name} | Error in "run_tapper" on attempt {attempt}: {e}')
+        if attempt < MAX_RETRIES:
+            logger.info(f'{session_name} | Retrying №{attempt} in {RETRY_DELAY} seconds...')
+            time.sleep(RETRY_DELAY)  # Optional: add delay before retrying
+            run_tapper(session_name, attempt + 1)  # Recursive call to retry
+            tg_sendMsg(f'{session_name} | While running run_tapper error occurs:\n {e}\n\nRetrying №{attempt} Successful!', ps='[GangstaMonkey] Exception run_tapper\n\n')
+        else:
+            logger.error(f'{session_name} | Max retries reached, giving up.')
         
