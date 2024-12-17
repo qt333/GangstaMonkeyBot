@@ -11,8 +11,8 @@ from tenacity import retry, stop_after_attempt, wait_random, retry_if_not_except
 tg = settings.TG_NOTIFICATIONS
 
 @retry(
-    stop=stop_after_attempt(3),
-    wait=wait_random(2, 6),
+    stop=stop_after_attempt(12),
+    wait=wait_random(30, 60),
     before_sleep=lambda retry_state, **kwargs: logger.info(f"{retry_state.args[0]} | Retrying tap... {retry_state.outcome.exception()}"),
     reraise=True
     )
@@ -111,8 +111,8 @@ def tap(session_name: str, zero_click = False) -> dict:
         return 0
 
 @retry(
-    stop=stop_after_attempt(3),
-    wait=wait_random(2, 6),
+    stop=stop_after_attempt(12),
+    wait=wait_random(30, 60),
     before_sleep=lambda retry_state, **kwargs: logger.info(f"{retry_state.args[0]} | Retrying tap_clicks_range... {retry_state.outcome.exception()}"),
     reraise=True
     )

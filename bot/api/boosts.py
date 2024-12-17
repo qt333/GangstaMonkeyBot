@@ -13,8 +13,8 @@ from tenacity import retry, stop_after_attempt, wait_random, retry_if_not_except
 tg = settings.TG_NOTIFICATIONS
 
 @retry(
-    stop=stop_after_attempt(3),
-    wait=wait_random(3, 7),
+    stop=stop_after_attempt(12),
+    wait=wait_random(30, 60),
     before_sleep=lambda retry_state, **kwargs: logger.info(f"{retry_state.args[0]} | Retrying boosters_check... {retry_state.outcome.exception()}"),
     reraise=True
     )
@@ -90,7 +90,12 @@ def boosters_check(session_name: str) -> dict:
         if tg:
             tg_sendMsg(f'{session_name} | Failed to get boosters: \n{response.status_code}, {response.text}', ps='[GangstaMonkey] Fail\n\n')
         return 0
-
+@retry(
+    stop=stop_after_attempt(12),
+    wait=wait_random(30, 60),
+    before_sleep=lambda retry_state, **kwargs: logger.info(f"{retry_state.args[0]} | Retrying booster_activate... {retry_state.outcome.exception()}"),
+    reraise=True
+    )
 def booster_activate(session_name, boost_slug):
     '''Activate boosters'''
 
@@ -161,8 +166,8 @@ def booster_activate(session_name, boost_slug):
         return 0
 
 @retry(
-    stop=stop_after_attempt(3),
-    wait=wait_random(3, 7),
+    stop=stop_after_attempt(12),
+    wait=wait_random(30, 60),
     before_sleep=lambda retry_state, **kwargs: logger.info(f"{retry_state.args[0]} | Retrying run_boosters... {retry_state.outcome.exception()}"),
     reraise=True
     )

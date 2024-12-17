@@ -122,7 +122,7 @@ class Tapper:
             logger.error('{}{}{} | While running error occurs: {}'.format(Colors.LIGHT_CYAN, self.session_name, Colors.END, e))
             # tg_sendMsg(f'{self.session_name} | While running error occurs: \n {e}', ps='[GangstaMonkey] Exception\n\n')
             # return False
-
+            raise
 # @retry(
 #     stop=stop_after_attempt(MAX_RETRIES),
 #     wait=wait_fixed(RETRY_DELAY),
